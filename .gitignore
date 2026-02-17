@@ -2,4 +2,7 @@
 terraform.tfstate
 terraform.tfstate.backup
 *.zip
+.terraform/
+*.tfstate
+*.tfstate.backup
 
