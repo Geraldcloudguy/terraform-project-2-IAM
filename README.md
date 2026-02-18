@@ -2,6 +2,17 @@
 
 This Terraform project demonstrates creating AWS IAM users and roles with least-privilege policies.
 
+## Purpose / What it Demonstrates
+
+This project demonstrates:
+
+- Creating IAM users and roles with least-privilege permissions  
+- Writing and applying IAM policies  
+- Securing AWS resources using best practices  
+- Understanding AWS IAM hierarchy and permissions  
+- Managing users and roles programmatically and via the console
+
+
 ## Features
 - Create IAM user: gerald_user
 - Attach AWS managed policy: ReadOnlyAccess
@@ -13,57 +24,51 @@ This Terraform project demonstrates creating AWS IAM users and roles with least-
 
 ![Project 2 IAM Architecture](project-2.png)
 
+## Architecture / Components
+
+- **IAM Users** for different roles  
+- **IAM Groups** for permission management  
+- **IAM Roles** for EC2 access  
+- **Policies** implementing least-privilege access  
+- **AWS Console & CLI** used for management and testing
+
+## Objectives
+
+- Create IAM users, groups, and roles with least-privilege policies  
+- Secure AWS resources following best practices  
+- Test permissions using AWS Console and CLI  
+- Document IAM setup and access controls  
+
 
 ## Requirements
 - AWS CLI configured
 - Terraform installed
 
-## How to run
-terraform init
-terraform plan -var "username=gerald_user"
-terraform apply -var "username=gerald_user"
+## How to Run / Apply Policies
 
-## Mock Apply / Plan Output
+1. Configure your AWS credentials  
+2. Apply IAM users, groups, and roles using Terraform or the console  
+3. Attach policies to users, groups, or roles  
+4. Verify permissions with AWS CLI or Console  
 
-The following Terraform plan demonstrates the IAM infrastructure that would be created:
+## Outputs / What You Get
 
-```bash
-cat plan_output.txt
+- **IAM Users** created for different roles  
+- **IAM Groups** with correct permissions  
+- **IAM Roles** attached to EC2 instances  
+- **Policies** enforcing least-privilege access  
+- Documentation of permissions and testing steps
 
+## Cost Controls
 
-## Outputs
-- IAM user name
-- IAM role name
+- Free Tier eligible resources only  
+- No always-on paid services  
+- Manual cleanup recommended after testing  
 
-## Mock Apply / Plan Output
-cat plan_output.txt
+## Cleanup
 
-# IAM Role
-resource "aws_iam_role" "gerald_role" {
-  name = "gerald_role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "ec2.amazonaws.com"
-      }
-    }]
-  })
-}
+- Delete IAM users, groups, and roles created for testing  
+- Remove any attached policies no longer needed
 
-resource "aws_iam_role_policy_attachment" "role_readonly" {
-  role       = aws_iam_role.gerald_role.name
-  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
-}
-
-# IAM User
-resource "aws_iam_user" "gerald_user" {
-  name = "gerald_user"
-}
-
-resource "aws_iam_user_policy_attachment" "user_readonly" {
-  user       = aws_iam_user.gerald_user.name
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
